@@ -59,7 +59,7 @@ const CodeEditor = () => {
       if (res.run.stderr) {
         setStatus(res.run.stderr);
       } else {
-        console.log(res.run.output);
+        // console.log(res.run.output);
         setStatus(outputChecking(res.run.output, problem.output));
       }
       console.log(status);
@@ -68,7 +68,7 @@ const CodeEditor = () => {
   };
 
   return (
-    <div>
+    <div className="bg-[#343a40] w-full h-full">
       <div className="card align-items-center gap-3">
         <Button
           className="bg-blue-500"
