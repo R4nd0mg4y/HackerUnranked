@@ -1,18 +1,17 @@
-export const outputChecking = (stdout, expectOutput)=>{
-    const stdoutArray = stdout.split('\n');
-    const expectOutputArray = expectOutput.split('\n');
-    if(stdoutArray.length !== expectOutputArray.length){
-        // console.log(stdoutArray.length+" "+expectOutputArray.length);
-        // console.log("wrong size "+stdoutArray+" "+expectOutputArray);
+export const outputChecking = (stdout, expectOutput) => {
+    const stdoutArray = stdout.trim().split('\n');
+    const expectOutputArray = expectOutput.trim().split('\n');
+    
+    // Check if the number of lines are the same
+    if (stdoutArray.length !== expectOutputArray.length) {
         return false;
     }
-    for(let i=0; i<stdoutArray.length; i++){
-        for(let j=0; j<stdoutArray[i].length; j++){
-            if(stdoutArray[i][j] !== expectOutputArray[i][j]){
-                // console.log("wrong comparation "+stdoutArray[i]+" "+expectOutputArray[i]);
-                return false;
-        }
+
+    // Compare each line in the output with the expected output
+    for (let i = 0; i < stdoutArray.length; i++) {
+        if (stdoutArray[i] !== expectOutputArray[i]) {
+            return false;  // Return false as soon as a mismatch is found
         }
     }
-    return true;
+    return true;  // Return true if all lines match
 }
