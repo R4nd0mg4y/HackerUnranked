@@ -11,7 +11,8 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { useRef } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import Questions from "./Listofquesions";
-// Import các theme và mode (ngôn ngữ) bạn cần
+import { BlockUI } from 'primereact/blockui';
+
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -35,20 +36,21 @@ const CodeEditor = () => {
   const [status, setStatus] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [problemId, setProblemId] = useState(1);
-  //  console.log(problem.input);
+  const [blocked, setBlocked] = useState(false);
+ 
   const op = useRef(null);
-  // Hàm submit code của bạn
+
   useEffect(() => {
     const fetchProblem = async () => {
       const codingProblem = await getProblem(problemId);
-      // console.log(codingProblem.input);
+     
     
       setProblem(codingProblem);
     };
     fetchProblem();
   }, [problemId]);
   const submit = async () => {
-    // Gọi hàm executeCode với ngôn ngữ và code của bạn
+    setBlocked(true);
     executeCode(
       selectedLang.code === "c_cpp" ? "c++" : selectedLang.code,
       code,
@@ -62,13 +64,15 @@ const CodeEditor = () => {
         // console.log(res.run.output);
         setStatus(outputChecking(res.run.output, problem.output));
       }
-      console.log(status);
+      
       setActiveIndex(1);
+      setBlocked(false);
     });
   };
 
   return (
     <div className="bg-[#343a40] w-full h-full">
+      <BlockUI blocked={blocked}>
       <div className="card align-items-center gap-3">
         <Button
           className="bg-blue-500"
@@ -139,6 +143,7 @@ const CodeEditor = () => {
           </TabView>
         </div>
       </div>
+      </BlockUI>
     </div>
   );
 };
