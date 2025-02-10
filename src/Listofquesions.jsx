@@ -4,10 +4,11 @@ import { Toast } from "primereact/toast";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 
-const Questions = ({  onProblemSelect }) => {
+const Questions = ({  onProblemSelect, overlayVisible }) => {
   const [problems, setProblems] = useState([]);
   const [selectedProblem, setSelectedProblem] = useState([]);
   // const [problemId, setProblemId] = useState(1);
+
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -22,14 +23,14 @@ const Questions = ({  onProblemSelect }) => {
     <DataTable
       value={problems}
       selectionMode="single"
-      paginator
+      paginator={true}
       rows={15}
       selection={selectedProblem}
       onSelectionChange={(e) => {
         onProblemSelect(e.value.id);
         setSelectedProblem(e.value);
       }}
-      // onRowClick={problemSelect}
+      onRowClick={overlayVisible}
     >
       <Column field="title" style={{ minWidth: "12rem" }} />
       {/* <Column header="Image" body={imageBody} /> */}
