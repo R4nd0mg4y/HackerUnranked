@@ -15,24 +15,26 @@ const Questions = ({  onProblemSelect, overlayVisible }) => {
       const response = await fetch("/problems.json");
       const data = await response.json();
       setProblems(data);
+      // console.log(data);
     };
     fetchProblems();
-  }, []);
+  }, [problems]);
 
   return (
     <DataTable
       value={problems}
       selectionMode="single"
       paginator={true}
-      rows={15}
+      rows={11}
       selection={selectedProblem}
       onSelectionChange={(e) => {
+        // console.log(e.value);
         onProblemSelect(e.value.id);
         setSelectedProblem(e.value);
       }}
       onRowClick={overlayVisible}
     >
-      <Column field="title" style={{ minWidth: "12rem" }} />
+      <Column header="Questions" field="title" style={{ minWidth: "12rem" }} />
       {/* <Column header="Image" body={imageBody} /> */}
       {/* <Column field="price" header="Price" sortable body={priceBody} style={{minWidth: '8rem'}} /> */}
     </DataTable>
