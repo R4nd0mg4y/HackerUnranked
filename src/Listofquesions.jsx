@@ -33,8 +33,10 @@ const Questions = ({  onProblemSelect, overlayVisible }) => {
         setSelectedProblem(e.value);
       }}
       onRowClick={overlayVisible}
-    >
+    > 
       <Column header="Questions" field="title" style={{ minWidth: "12rem" }} />
+      <Column header="Difficulty" field="difficulty" style={{ minWidth: "12rem" }} />
+      <Column header="Topic" field="topic" style={{ minWidth: "12rem" }} />
       {/* <Column header="Image" body={imageBody} /> */}
       {/* <Column field="price" header="Price" sortable body={priceBody} style={{minWidth: '8rem'}} /> */}
     </DataTable>

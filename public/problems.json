@@ -4,129 +4,143 @@
     "title": "Find an Element Which is Smaller or Equal to Exactly K Numbers",
     "description": "You have to find some number X greater than 0 where exactly K elements in that list are greater than or equal to the number X. If there are multiple such values, return the smallest possible. If there is no such X, return (-1).",
     "input": ["1", "8", "3 8 5 1 10 3 20 24", "2"],
-    "output": "11\n"
+    "output": "11\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 2,
     "title": "Find First and Last Position of Element in Sorted Array",
     "description": "Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value. If the target is not found in the array, return [-1, -1].",
     "input": ["2", "6", "5 7 7 8 8 10", "8", "6", "5 7 7 8 8 10", "6"],
-    "output": "[3, 4]\n[-1, -1]\n"
+    "output": "[3, 4]\n[-1, -1]\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 3,
     "title": "Find the Smallest Divisor Given a Threshold",
     "description": "Given an array of integers nums and an integer threshold, we will choose a positive integer divisor and divide all the array by it and sum the result of the division. Find the smallest divisor such that the result mentioned above is less than or equal to threshold.",
-    "input": [
-      "3",
-      "5",
-      "2 3 5 7 11",
-      "11",
-      "6",
-      "1 2 5 9",
-      "6",
-      "7",
-      "19 5 6 42 16 7",
-      "17"
-    ],
-    "output": "3\n5\n6\n"
+    "input": ["3", "5", "2 3 5 7 11", "11", "6", "1 2 5 9", "6", "7", "19 5 6 42 16 7", "17"],
+    "output": "3\n5\n6\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 4,
     "title": "Two Sum",
     "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to the target.",
     "input": ["2", "4", "2 7 11 15", "9", "3", "3 2 4", "6"],
-    "output": "[0, 1]\n[1, 2]\n"
+    "output": "[0, 1]\n[1, 2]\n",
+    "topic": "Hash Table",
+    "difficulty": "Easy"
   },
   {
     "id": 5,
     "title": "Maximum Subarray",
     "description": "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
     "input": ["2", "9", "-2 1 -3 4 -1 2 1 -5 4", "6", "1 2 3 -2 5"],
-    "output": "6\n9\n"
+    "output": "6\n9\n",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium"
   },
   {
     "id": 6,
     "title": "Merge Intervals",
     "description": "Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals and return an array of the non-overlapping intervals that cover all the intervals in the input.",
     "input": ["2", "4", "1 3 2 6 8 10 15 18", "2", "1 4 4 5"],
-    "output": "[[1, 6], [8, 10], [15, 18]]\n[[1, 5]]\n"
+    "output": "[[1, 6], [8, 10], [15, 18]]\n[[1, 5]]\n",
+    "topic": "Sorting",
+    "difficulty": "Medium"
   },
   {
     "id": 7,
     "title": "Search in Rotated Sorted Array",
     "description": "Given a rotated sorted array and a target value, return the index of the target if it is in the array, otherwise return -1.",
     "input": ["2", "7", "4 5 6 7 0 1 2", "0", "4", "5 1 3", "3"],
-    "output": "4\n-1\n"
+    "output": "4\n-1\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 8,
     "title": "Longest Increasing Subsequence",
     "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence.",
     "input": ["2", "8", "10 9 2 5 3 7 101 18", "6", "0 1 0 3 2 3"],
-    "output": "4\n4\n"
+    "output": "4\n4\n",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium"
   },
   {
     "id": 9,
     "title": "Container With Most Water",
     "description": "Given an integer array height of length n, find two lines that together with the x-axis form a container that holds the most water.",
     "input": ["2", "9", "1 8 6 2 5 4 8 3 7", "2", "1 1"],
-    "output": "49\n1\n"
+    "output": "49\n1\n",
+    "topic": "Two Pointers",
+    "difficulty": "Medium"
   },
   {
     "id": 10,
     "title": "3Sum",
     "description": "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j != k and nums[i] + nums[j] + nums[k] == 0.",
     "input": ["2", "6", "-1 0 1 2 -1 -4", "3", "0 1 1"],
-    "output": "[[-1, -1, 2], [-1, 0, 1]]\n[]\n"
+    "output": "[[-1, -1, 2], [-1, 0, 1]]\n[]\n",
+    "topic": "Two Pointers",
+    "difficulty": "Medium"
   },
   {
     "id": 11,
     "title": "Remove Duplicates from Sorted Array",
     "description": "Given a sorted array nums, remove the duplicates in-place such that each element appears only once and return the new length.",
     "input": ["2", "3", "1 1 2", "10", "0 0 1 1 1 2 2 3 3 4"],
-    "output": "2\n5\n"
+    "output": "2\n5\n",
+    "topic": "Two Pointers",
+    "difficulty": "Easy"
   },
   {
     "id": 12,
     "title": "Find Minimum in Rotated Sorted Array",
     "description": "Given a rotated sorted array, find the minimum element.",
     "input": ["2", "5", "3 4 5 1 2", "5", "4 5 1 2 3"],
-    "output": "1\n1\n"
+    "output": "1\n1\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 13,
     "title": "Find Peak Element",
     "description": "Given an integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.",
     "input": ["2", "4", "1 2 3 1", "7", "1 2 1 3 5 6 4"],
-    "output": "2\n5\n"
+    "output": "2\n5\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 14,
     "title": "Search a 2D Matrix",
     "description": "Given a 2D matrix where each row is sorted and the first integer of each row is greater than the last integer of the previous row, determine if a target value exists in the matrix.",
-    "input": [
-      "2",
-      "3 4",
-      "1 3 5 7 10 11 16 20 23 30 34 60",
-      "3",
-      "3 4",
-      "1 3 5 7 10 11 16 20 23 30 34 60"
-    ],
-    "output": "true\nfalse\n"
+    "input": ["2", "3 4", "1 3 5 7 10 11 16 20 23 30 34 60", "3", "3 4", "1 3 5 7 10 11 16 20 23 30 34 60"],
+    "output": "true\nfalse\n",
+    "topic": "Binary Search",
+    "difficulty": "Medium"
   },
   {
     "id": 15,
     "title": "Kth Largest Element in an Array",
     "description": "Given an integer array nums and an integer k, return the kth largest element in the array.",
     "input": ["2", "6", "3 2 1 5 6 4", "2", "9", "3 2 3 1 2 4 5 5 6", "4"],
-    "output": "5\n4\n"
+    "output": "5\n4\n",
+    "topic": "Heap",
+    "difficulty": "Medium"
   },
   {
     "id": 16,
     "title": "Find the Longest Substring Without Repeating Characters",
     "description": "Given a string s, find the length of the longest substring without repeating characters. The function should return the length of the longest substring, and if there are multiple substrings with the same length, return the first one.",
     "input": ["1", "abcabcbb"],
-    "output": "3\n"
+    "output": "3\n",
+    "topic": "Sliding Window",
+    "difficulty": "Medium"
   }
 ]
