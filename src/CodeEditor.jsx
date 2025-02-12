@@ -13,7 +13,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import Questions from "./Listofquesions";
 import { BlockUI } from "primereact/blockui";
 import { useLocation } from "react-router-dom";
-
+import { getProblems } from "./getProblem";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -40,6 +40,14 @@ const CodeEditor = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [problemId, setProblemId] = useState(location.state?.problemId || 1);
   const [blocked, setBlocked] = useState(false);
+  const [problems, setProblems] = useState([]);
+  useEffect(() => {
+    const fetchProblems = async () => {
+      const problems = await getProblems();
+      setProblems(problems);
+    };
+    fetchProblems();
+  }, [problems]);
 
   const op = useRef(null);
 
@@ -78,7 +86,7 @@ const CodeEditor = () => {
           <Button
             className="bg-blue-500"
             type="button"
-            icon="pi pi-search"
+            icon="pi pi-align-justify"
             label="List of questions"
             onClick={(e) => {
               op.current.toggle(e);
@@ -86,6 +94,7 @@ const CodeEditor = () => {
           />
           <OverlayPanel ref={op} showCloseIcon closeOnEscape dismissable={true}>
             <Questions
+              problems={problems}
               onProblemSelect={(e) => setProblemId(e)}
               overlayVisible={() => {
                 op.current.hide();
