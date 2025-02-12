@@ -8,8 +8,9 @@ const Home = () => {
   const navigate = useNavigate();
   const [problems, setProblems] = useState([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
-
+  const [topicOptions, setTopicOptions] = useState("");
   const difficultyOptions = [
     { label: "Easy", value: "Easy" },
     { label: "Medium", value: "Medium" },
@@ -20,9 +21,30 @@ const Home = () => {
       const problems = await getProblems();
       setProblems(problems);
       setFilteredData(problems);
+      setTopicOptions(
+        Array.from(
+          problems.reduce((set, problem) => {
+            set.add(problem.topic);
+            return set;
+          }, new Set())
+        ).map(topic=>({label:topic,value:topic}))
+      );
+     
     };
     fetchProblems();
   }, []);
+  const handleTopicChange = (e)=>{
+    const selectedValue = e.value;
+    setSelectedTopic(selectedValue);
+    if (selectedValue) {
+      const filtered = problems.filter(
+        (item) => item.topic === selectedValue && (selectedDifficulty ? item.difficulty === selectedDifficulty : true)
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(problems);
+    }
+  }
 
   const handleDifficultyChange = (e) => {
     const selectedValue = e.value;
@@ -32,7 +54,7 @@ const Home = () => {
 
     if (selectedValue) {
       const filtered = problems.filter(
-        (item) => item.difficulty === selectedValue
+        (item) => item.difficulty === selectedValue && (selectedTopic ? item.topic === selectedTopic : true)
       );
       setFilteredData(filtered);
     } else {
@@ -50,6 +72,17 @@ const Home = () => {
           options={difficultyOptions}
           optionLabel="label"
           placeholder={"Difficulty"}
+          showClear
+          checkmark={true}
+        />
+        <Dropdown
+          className="mb-2"
+          value={selectedTopic}
+          onChange={handleTopicChange}
+          options={topicOptions}
+          optionLabel="label"
+          placeholder={"Topic"}
+          editable
           showClear
           checkmark={true}
         />
