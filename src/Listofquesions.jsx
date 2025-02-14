@@ -4,11 +4,10 @@ import { Toast } from "primereact/toast";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 
-const Questions = ({ problems,onProblemSelect, overlayVisible }) => {
-  
+const Questions = ({ problems, onProblemSelect, overlayVisible }) => {
   const [selectedProblem, setSelectedProblem] = useState([]);
   // const [problemId, setProblemId] = useState(1);
- 
+
   return (
     <DataTable
       value={problems}
@@ -23,6 +22,32 @@ const Questions = ({ problems,onProblemSelect, overlayVisible }) => {
       }}
       onRowClick={overlayVisible}
     >
+      <Column
+        header="Status"
+        field="status"
+        style={{ minWidth: "12rem" }}
+        body={(rowData) => {
+          const status = rowData.submissions?.latestSubmission.status;
+          // console.log(String(status))
+          const getStatusIcon = (status) => {
+            switch (status) {
+              case true:
+                return <i className="pi pi-check text-green-500 text-xl" />; 
+              case false:
+                return <i className="pi pi-minus text-red-500 text-xl" />;
+              case "Compile Error":
+                  return <i className="pi pi-minus text-red-500 text-xl" />;
+              default:
+                return null; 
+            }
+          };
+          return (
+            <div className="flex justify-center items-center">
+              {getStatusIcon(status)}
+            </div>
+          );
+        }}
+      />
       <Column header="Questions" field="title" style={{ minWidth: "12rem" }} />
       <Column
         header="Difficulty"

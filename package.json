@@ -15,6 +15,7 @@
     "ace-builds": "^1.37.5",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
+    "firebase": "^11.3.1",
     "monaco-editor": "^0.52.2",
     "postcss": "^8.5.1",
     "primeflex": "^3.3.1",

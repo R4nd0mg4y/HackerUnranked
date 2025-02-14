@@ -14,6 +14,10 @@ import Questions from "./Listofquesions";
 import { BlockUI } from "primereact/blockui";
 import { useLocation } from "react-router-dom";
 import { getProblems } from "./getProblem";
+import useCurrentUser from "./getUser";
+import { submitProblem } from "./SubmitProblem";
+import ResultScreen from "./ResultScreen";
+import { getProblemSubmissions } from "./getSubmission";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -22,6 +26,8 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-monokai";
 
 const CodeEditor = () => {
+  const { user } = useCurrentUser();
+  // console.log(user)
   const location = useLocation();
   const [code, setCode] = useState("");
   const [selectedLang, setselectedLang] = useState({
@@ -35,19 +41,34 @@ const CodeEditor = () => {
     { name: "Java", code: "java" },
     { name: "Javascript", code: "javascript" },
   ];
-  console.log(location.state);
+  // console.log(location.state);
   const [status, setStatus] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [problemId, setProblemId] = useState(location.state?.problemId || 1);
   const [blocked, setBlocked] = useState(false);
   const [problems, setProblems] = useState([]);
+  const fetchProblems = async () => {
+    const allProblems = await getProblems();
+    const problems = user
+      ? await Promise.all(
+          allProblems.map(async (problem) => {
+            const submissions = await getProblemSubmissions(
+              user.uid,
+              problem.id
+            );
+            return {
+              ...problem,
+              submissions,
+            };
+          })
+        )
+      : allProblems;
+
+    setProblems(problems);
+  };
   useEffect(() => {
-    const fetchProblems = async () => {
-      const problems = await getProblems();
-      setProblems(problems);
-    };
     fetchProblems();
-  }, [problems]);
+  });
 
   const op = useRef(null);
 
@@ -55,9 +76,17 @@ const CodeEditor = () => {
     const fetchProblem = async () => {
       const codingProblem = await getProblem(problemId);
       setProblem(codingProblem);
+     
+      if (user) {
+        const submision = await getProblemSubmissions(user.uid, problemId);
+        const status = submision.latestSubmission.status;
+        console.log(status);
+        setStatus(status);
+      }
     };
     fetchProblem();
-  }, [problemId]);
+  }, [problemId,user]);
+
   const submit = async () => {
     setBlocked(true);
     executeCode(
@@ -69,13 +98,29 @@ const CodeEditor = () => {
       // console.log(res.run.stderr);
       if (res.run.stderr) {
         setStatus(res.run.stderr);
+        // console.log(user.uid);
+        if (user) {
+          submitProblem(
+            user?.uid,
+            problemId,
+            code,
+            selectedLang.name,
+            "Compile Error"
+          );
+        }
       } else {
+        // console.log(user.email);
         // console.log(res.run.output);
-        setStatus(outputChecking(res.run.output, problem.output));
+        const result = outputChecking(res.run.output, problem.output);
+        if (user) {
+          submitProblem(user?.uid, problemId, code, selectedLang.name, result);
+        }
+        setStatus(result);
       }
 
       setActiveIndex(1);
       setBlocked(false);
+      fetchProblems();
     });
   };
 
@@ -95,7 +140,10 @@ const CodeEditor = () => {
           <OverlayPanel ref={op} showCloseIcon closeOnEscape dismissable={true}>
             <Questions
               problems={problems}
-              onProblemSelect={(e) => setProblemId(e)}
+              onProblemSelect={(e) => {
+                setProblemId(e);
+                setActiveIndex(0);
+              }}
               overlayVisible={() => {
                 op.current.hide();
               }}
@@ -136,7 +184,7 @@ const CodeEditor = () => {
             </div>
           </div>
 
-          <div className="w-[49.8%] h-full border-2 border-black p-5 rounded-lg">
+          <div className="w-[49.8%] h-[100vh] border-2 border-black p-5 rounded-lg">
             <TabView
               activeIndex={activeIndex}
               onTabChange={(e) => setActiveIndex(e.index)}
@@ -146,15 +194,24 @@ const CodeEditor = () => {
                   <Description
                     title={problem.title}
                     description={problem.description}
-                    status="complete"
+                    status={status}
                     input={problem.input}
                     output={problem.output}
                   />
                 </div>
               </TabPanel>
               <TabPanel header="Submission">
-                <div className="h-full w-full flex flex-col items-center  border-black p-5 rounded-lg">
-                  <Console result={status} />
+                <div className="h-[80vh] w-full flex flex-col items-center ">
+                  <ResultScreen result={status} />
+                </div>
+              </TabPanel>
+              <TabPanel header="History">
+                <div className="h-[80vh] w-full flex flex-col items-center ">
+                  <Console
+                    result={status}
+                    problemId={problemId}
+                    uid={user?.uid}
+                  />
                 </div>
               </TabPanel>
             </TabView>
