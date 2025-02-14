@@ -15,7 +15,7 @@ import { BlockUI } from "primereact/blockui";
 import { useLocation } from "react-router-dom";
 import { getProblems } from "./getProblem";
 import useCurrentUser from "./getUser";
-import { submitProblem } from "./SubmitProblem";
+import { submitProblem } from "./submitProblem";
 import ResultScreen from "./ResultScreen";
 import { getProblemSubmissions } from "./getSubmission";
 import "ace-builds/src-noconflict/mode-javascript";
