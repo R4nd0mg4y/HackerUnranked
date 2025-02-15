@@ -4,34 +4,48 @@ import { Password } from "primereact/password";
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth ,db } from "./firebase"; 
-import {setDoc,doc} from "firebase/firestore"
+import { auth, db } from "./firebase";
+import { setDoc, doc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
-const Registerform = ({ onClick , setVisible}) => {
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
+const Registerform = ({ onClick, setVisible }) => {
+  const toast = useRef(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const showError = (message) => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: message,
+      life: 3000,
+    });
+  };
   //   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleRegister = async() =>{
-    setVisible(false);
+  const handleRegister = async () => {
+    
     // e.preventDefault();
-    try{
-       await createUserWithEmailAndPassword(auth,email,password);
-       const user = auth.currentUser;
-    //    console.log(user)
-       if(user){
-        await setDoc(doc(db,"Users", user.uid),{
-            email:user.email,
-        })
-       }
-       await signInWithEmailAndPassword(auth,email,password);
-    } catch(error){
-        console.log(error.message)
-
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      //    console.log(user)
+      if (user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+        });
+      }
+      await signInWithEmailAndPassword(auth, email, password);
+      setVisible(false);
+    } catch (error) {
+      console.log(error.message);
+      showError(error.message);
     }
-  }
+  };
+  
 
   return (
     <>
+      <Toast ref={toast} />
       <div className="card flex justify-content-center">
         <FloatLabel>
           <InputText

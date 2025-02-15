@@ -126,14 +126,14 @@ const Home = () => {
           {user ? <div>Welcome,{`${user?.email}`}</div> : null}
           {!user ? (
             <Button
-              className="top-2  bg-blue-500"
+              className="top-1  bg-blue-500"
               label="Login"
               // icon="pi pi-external-link"
               onClick={() => setVisible(true)}
             />
           ) : (
             <Button
-              className="top-2  bg-blue-500"
+              className="top-1  bg-blue-500"
               label="Logout"
               // icon="pi pi-external-link"
               onClick={handleLogout}
