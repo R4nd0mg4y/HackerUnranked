@@ -43,6 +43,7 @@ const CodeEditor = () => {
   ];
   // console.log(location.state);
   const [status, setStatus] = useState("");
+  const [lastStatus, setLastStatus] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [problemId, setProblemId] = useState(location.state?.problemId || 1);
   const [blocked, setBlocked] = useState(false);
@@ -81,21 +82,21 @@ const CodeEditor = () => {
         const submision = await getProblemSubmissions(user.uid, problemId);
         const status = submision.latestSubmission.status;
         console.log(status);
-        setStatus(status);
+        setLastStatus(status);
       }
     };
     fetchProblem();
-  }, [problemId,user]);
+  }, [problemId,user,status]);
 
   const submit = async () => {
     setBlocked(true);
     executeCode(
       selectedLang.code === "c_cpp" ? "c++" : selectedLang.code,
       code,
-      problem.input
+      problem.realInput
     ).then((res) => {
       // console.log(problem.output);
-      // console.log(res.run.stderr);
+      // console.log(res);
       if (res.run.stderr) {
         setStatus(res.run.stderr);
         // console.log(user.uid);
@@ -111,9 +112,9 @@ const CodeEditor = () => {
       } else {
         // console.log(user.email);
         // console.log(res.run.output);
-        const result = outputChecking(res.run.output, problem.output);
+        const result = outputChecking(problem.inputChecking,res.run.output, problem.realOutput);
         if (user) {
-          submitProblem(user?.uid, problemId, code, selectedLang.name, result);
+          submitProblem(user?.uid, problemId, code, selectedLang.name, result.status);
         }
         setStatus(result);
       }
@@ -143,6 +144,8 @@ const CodeEditor = () => {
               onProblemSelect={(e) => {
                 setProblemId(e);
                 setActiveIndex(0);
+                setStatus("");
+                setCode("")
               }}
               overlayVisible={() => {
                 op.current.hide();
@@ -194,21 +197,20 @@ const CodeEditor = () => {
                   <Description
                     title={problem.title}
                     description={problem.description}
-                    status={status}
+                    status={lastStatus}
                     input={problem.input}
                     output={problem.output}
                   />
                 </div>
               </TabPanel>
               <TabPanel header="Submission">
-                <div className="h-[80vh] w-full flex flex-col items-center ">
+                <div className="h-[80vh] w-full flex flex-col items-start justify-start">
                   <ResultScreen result={status} />
                 </div>
               </TabPanel>
               <TabPanel header="History">
                 <div className="h-[80vh] w-full flex flex-col items-center ">
                   <Console
-                    result={status}
                     problemId={problemId}
                     uid={user?.uid}
                   />

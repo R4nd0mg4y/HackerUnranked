@@ -39,18 +39,15 @@ const Console = ({ result, problemId, uid }) => {
   useEffect(() => {
     const getSubmision = async () => {
       const submission = await getProblemSubmissions(uid, problemId);
-      setSubmission(submission.submissions);
+      if(submission){ setSubmission(submission.submissions);}
     };
     getSubmision();
+
   }, [problemId]);
 
   return (
     <>
-      {/* <p
-        className={` ${textColor} w-full h-full items-start flex whitespace-pre-line`}
-      >
-        {message}
-      </p> */}
+  
       {!uid ? null : (
         <>
           <Dialog
@@ -122,14 +119,14 @@ const Console = ({ result, problemId, uid }) => {
                 return (
                   <div className="flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-500 p-2 rounded">
                     <span
-                      className={`px-2 py-1 rounded ${
+                      className={`px-2 py-1 rounded w-[30%] ${
                         StatusColors[status] || "bg-gray-500 text-white"
                       }`}
                     >
                       {result(status)}
                     </span>
+                    <div>{rowData.language}</div>
                     <i className="pi pi-eye text-gray-500" />{" "}
-                    {/* Thêm icon xem */}
                   </div>
                 );
               }}
